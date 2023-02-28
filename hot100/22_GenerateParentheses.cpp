@@ -4,6 +4,7 @@
 
 #include <vector>
 using namespace std;
+#include <string>
 class Solution {
 public:
     vector<string> res;
