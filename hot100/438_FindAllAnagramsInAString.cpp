@@ -15,8 +15,7 @@ public:
         int lenP = p.size();
         vector<int> res;
         if(lenS < lenP) return res;
-        array<int, 26> countArr;
-        countArr.fill(0);
+        array<int, 26> countArr{};
         int diff = 0;
         for(int i=0;i<lenP;++i)
         {
