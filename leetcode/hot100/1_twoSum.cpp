@@ -1,5 +1,7 @@
 #include <map>
 #include <vector>
+#include <iostream>
+
 using namespace std;
 class Solution {
 public:
@@ -19,3 +21,9 @@ public:
         return res;
     }
 };
+
+int main()
+{
+    std::cout<<"0";
+    return 0;
+}
