@@ -24,7 +24,7 @@ public:
             int depthL = depth + 1;
             int depthR = depth + 1;
             calculateMinimumDepth(root->left, depthL);
-            calculateMinimumDepth(root->right, depthR); *
+            calculateMinimumDepth(root->right, depthR);
             depth = depthL > depthR ? depthR : depthL;
         }
     }
