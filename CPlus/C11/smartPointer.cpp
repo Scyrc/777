@@ -20,7 +20,6 @@ struct Tomato : public Fruit, Vegetable {
 
 void testSharePtr()
 {
-
     std::shared_ptr<int> sptr = std::make_shared<int>(200);
     assert(sptr.use_count() == 1);  // 此时引用计数为 1
 
@@ -46,6 +45,8 @@ void testSharePtr()
 }
 void Observe(std::weak_ptr<int> wptr) {
     if (auto sptr = wptr.lock()) {
+        std::cout <<  "count: " << sptr.use_count() << std::endl;
+
         std::cout << "value: " << *sptr << std::endl;
     } else {
         std::cout << "wptr lock fail" << std::endl;
@@ -63,6 +64,6 @@ void testWeakPtr()
 }
 int main()
 {
-    testSharePtr();
-    //testWeakPtr();
+    //testSharePtr();
+    testWeakPtr();
 }
