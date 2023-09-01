@@ -5,6 +5,17 @@
 #include <assert.h>
 #include <memory>
 
+template<typename T>
+struct MyDeleter
+{
+    void operator() (const T* Ptr)
+    {
+        if(Ptr == nullptr) return;
+        delete Ptr;
+        Ptr = nullptr;
+        std::cout<< "delete ptr"<<std::endl;
+    }
+};
 
 struct Fruit {
     int juice;
@@ -16,8 +27,14 @@ struct Vegetable {
 
 struct Tomato : public Fruit, Vegetable {
     int sauce;
-};
 
+    Tomato(int v) : Fruit(), Vegetable() { sauce = v;}
+};
+void testUniquePtr()
+{
+    std::unique_ptr<Tomato> uptr = std::make_unique<Tomato>(1);
+    uptr.reset(new Tomato(2));
+}
 void testSharePtr()
 {
     std::shared_ptr<int> sptr = std::make_shared<int>(200);
@@ -35,7 +52,7 @@ void testSharePtr()
     std::cout << sizeof(std::shared_ptr<int>) << std::endl;  // 输出 16
 
     // 由于继承的存在，shared_ptr 可能指向基类对象
-    std::shared_ptr<Tomato> tomato = std::make_shared<Tomato>();
+    std::shared_ptr<Tomato> tomato = std::make_shared<Tomato>(1);
 
     std::shared_ptr<Fruit> fruit = tomato;
     std::shared_ptr<Vegetable> vegetable = tomato;

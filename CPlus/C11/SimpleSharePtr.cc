@@ -2,9 +2,7 @@
 // Created by sc on 2023/5/20.
 //
 
-
 #include <iostream>
-
 template<typename T>
 class SimpleSharePtr
 {
@@ -46,7 +44,7 @@ public:
     // =
     SimpleSharePtr& operator=(const SimpleSharePtr& other)
     {
-        if(this != other)
+        if(this->get() != other.get())
         {
             release();
             ptr_ = other.ptr_;
@@ -58,7 +56,7 @@ public:
 
     SimpleSharePtr& operator=(SimpleSharePtr&& other) noexcept
     {
-        if(this != other)
+        if(this->get() != other.get())
         {
             release();
             ptr_ = other.ptr_;
@@ -88,11 +86,21 @@ int main()
 {
     {
         SimpleSharePtr<MyClass> ptr1(new MyClass());
+
         {
             SimpleSharePtr<MyClass> ptr2 = ptr1;
             ptr1->do_something();
             ptr2->do_something();
+            ptr2.get()->do_something();
             std::cout << "use_count: " << ptr1.use_count() << std::endl;
+
+            SimpleSharePtr<MyClass> ptr3(new MyClass());
+            ptr2 = ptr1;
+            ptr2 = ptr2;
+            ptr2 = std::move(ptr3);
+
+            std::cout << "use_count: " << ptr1.use_count() << std::endl;
+
         }
         std::cout << "use_count: " << ptr1.use_count() << std::endl;
     }
