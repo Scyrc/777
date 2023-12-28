@@ -4,10 +4,17 @@ class MyClass
 {
 public:
     explicit MyClass(int value):value_(value){}
+    MyClass(){
+        value_ = 0;
+        std::cout<<"MyClass"<<std::endl;
+    };
+    ~MyClass(){
+        std::cout<<"~MyClass"<<std::endl;
+    };
 
     void doSomething(){ std::cout<<"do something " <<value_ <<std::endl;}
 private:
-    int value_;
+    int value_{};
 };
 void newTest()
 {
@@ -73,10 +80,37 @@ void placementNewTestStack()
 
 }
 
+void placementNewTestClass()
+{
+    int n = 5;
+    MyClass* m = new MyClass[n]{};
+
+    int* d = new (&m) int[n];
+    int* e = d;
+
+    for(int i=0;i<n;++i)
+    {
+        *d = 10-i;
+        ++d;
+    }
+    for(int i=0;i<n;++i)
+    {
+        std::cout<< *e << " ";
+        ++e;
+    }
+    for(int i=0;i<n;++i)
+    {
+        m->doSomething();
+        ++m;
+    }
+
+}
+
 
 int main()
 {
     //newTest();
-    placementNewTestHeap();
+    //placementNewTestHeap();
     placementNewTestStack();
+    placementNewTestClass();
 }
